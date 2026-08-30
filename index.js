@@ -20,7 +20,12 @@ app.get('/', async (req, res) => {
 			'Content-Type': 'application/json' };
 	
 	try 
-		{ const resp = await axios.get(url, { headers, params: { properties: 'name,author,pages' } }); 
+		{ const resp = await axios.get(url, { 
+			headers, 
+			params: { 
+				properties: 'name,author,pages' 
+			} 
+}); 
 		const data = resp.data.results; 
 		res.render('homepage', { title: 'Books | Integrating With HubSpot I Practicum', data: data }); } 
 
