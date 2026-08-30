@@ -10,22 +10,25 @@ app.use(express.json());
 
 // stored elsewhere - .env
 const PRIVATE_APP_ACCESS = process.env.PRIVATE_APP_ACCESS;
+console.log('Token Loaded:', !!PRIVATE_APP_ACCESS);
 const CUSTOM_OBJECT_TYPE_ID = process.env.CUSTOM_OBJECT_TYPE_ID;
 
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
 app.get('/', async (req, res) => {
-	const url = 'https://api.hubapi.com/crm/v3/objects/${CUSTOM_OBJECT_TYPE_ID}';
-	const headers = { Authorization: 'Bearer ${PRIVATE_APP_ACCESS}',
-			'Content-Type': 'application/json' };
+	const url = `https://api.hubapi.com/crm/v3/objects/${CUSTOM_OBJECT_TYPE_ID}`;
+	const headers = { 
+		Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+		'Content-Type': 'application/json' 
+	};
 	
-	try 
-		{ const resp = await axios.get(url, { 
-			headers, 
+	try { 
+		const resp = await axios.get(url, { 
+			headers: headers, 
 			params: { 
 				properties: 'name,author,pages' 
 			} 
-}); 
+		}); 
 		const data = resp.data.results; 
 		res.render('homepage', { title: 'Books | Integrating With HubSpot I Practicum', data: data }); } 
 
@@ -44,7 +47,7 @@ app.get('/update-cobj', (req, res) => {
 
 
 app.post('/update-cobj', async (req, res) => { 
-	const url = 'https://api.hubapi.com/crm/v3/objects/${CUSTOM_OBJECT_TYPE_ID}';
+	const url = `https://api.hubapi.com/crm/v3/objects/${CUSTOM_OBJECT_TYPE_ID}`;
 	const headers = { Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
     };
